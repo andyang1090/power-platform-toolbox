@@ -144,6 +144,43 @@
             transition: transform 0.2s ease;
         }
 
+        .download-project {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 18px;
+            min-height: 40px;
+            max-width: 100%;
+            padding: 9px 16px;
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            background: var(--primary);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.5;
+            text-align: center;
+            text-decoration: none;
+            box-shadow: var(--shadow);
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .download-project:hover {
+            background: var(--primary-hover);
+            border-color: var(--primary-hover);
+            color: #fff;
+        }
+
+        .download-project:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 3px;
+        }
+
+        .download-project svg {
+            flex-shrink: 0;
+        }
+
         footer {
             margin-top: 60px;
             text-align: center;
@@ -158,6 +195,10 @@
     <div class="header">
         <h1><img src="./favicon.svg" alt="" width="36" height="36">Power Platform Toolbox</h1>
         <p>Formula generators, automation expressions, and list schema tools</p>
+        <a class="download-project" href="https://github.com/andyang1090/power-platform-toolbox/archive/refs/heads/main.zip">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Download full project
+        </a>
     </div>
 
     <div class="grid">
