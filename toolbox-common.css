@@ -132,3 +132,144 @@ body{background:#eef2f7}
     .select-tool .select-field-mapping{flex:1;min-height:100px}
     .select-tool .select-field-mapping textarea{flex:1;height:0;resize:none}
 }
+
+/* Phone and tablet widths. Desktop rules above stay in effect at 1024px and wider. */
+@media (max-width: 1023px) {
+    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    body { padding: 16px 12px; height: auto; min-height: 100%; overflow-x: auto; overflow-y: auto; }
+    .container, .tool-workspace, main { width: 100%; max-width: 100%; min-width: 0; height: auto; }
+    .tool-workspace {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        height: auto;
+        max-width: 100%;
+    }
+    .tool-workspace > .toolbox-back,
+    .tool-workspace > .header,
+    .tool-workspace > .card,
+    .tool-workspace > .panel {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        height: auto;
+        max-height: none;
+        margin: 0;
+        overflow: visible;
+        grid-column: auto;
+        grid-row: auto;
+    }
+    .header h1 { flex-wrap: wrap; min-width: 0; overflow-wrap: anywhere; font-size: 22px; }
+    .header p, .card-title, .panel h2, .note, .explain, .muted { overflow-wrap: anywhere; }
+    .card-title { flex-wrap: wrap; align-items: flex-start; gap: 8px; min-width: 0; }
+    .card-title > span { flex: 1 1 100%; min-width: 0; }
+    .fields, .tool-workspace .fields, .workspace-two .fields { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+    .logic-switch, .source-tabs, .source-toolbar, .input-top-toolbar, .json-action-bar,
+    .toolbox-actions, .actions, .source-top-actions, #jsonTopActions, .result-head, .editable-action-bar {
+        max-width: 100%;
+        min-width: 0;
+        flex-wrap: wrap;
+    }
+    .logic-switch, .source-tabs { display: flex; width: 100%; }
+    .logic-switch label, .source-tab {
+        flex: 1 1 140px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+    .tool-workspace .rule-row,
+    .filter-tool #rulesContainer .rule-row,
+    .odata-tool #rulesContainer .rule-row,
+    .select-tool #mapContainer .rule-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 10px;
+        align-items: stretch;
+        min-width: 0;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+    .tool-workspace .rule-row > *,
+    .tool-workspace .col-left,
+    .tool-workspace .col-right { min-width: 0; max-width: 100%; }
+    .tool-workspace .rule-row select,
+    .tool-workspace .rule-row input[type="text"],
+    .tool-workspace .rule-row input:not([type]),
+    .tool-workspace .col-left select,
+    .tool-workspace .col-right input {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+    }
+    .tool-workspace .rule-row > .icon-btn { justify-self: end; }
+    .tool-workspace input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),
+    .tool-workspace select,
+    .tool-workspace textarea {
+        font-size: 16px;
+    }
+    .tool-workspace input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),
+    .tool-workspace select { min-height: 44px; }
+    .tool-workspace .map-combobox { flex-direction: column; align-items: stretch; overflow: hidden; }
+    .tool-workspace .map-combobox input.map-val { width: 100%; min-width: 0; min-height: 44px; font-size: 16px; }
+    .tool-workspace .map-combobox select.map-field-picker {
+        flex: 1 1 auto;
+        width: 100%;
+        min-width: 0;
+        min-height: 44px;
+        font-size: 16px;
+        border-left: 0;
+        border-top: 1px solid #c8dff1;
+    }
+    button, .btn, .toolbox-action, .toolbox-back, .source-tab, .actions button, button.primary, .copy {
+        min-height: 44px;
+    }
+    .toolbox-back { display: inline-flex; align-items: center; }
+    .icon-btn { width: 44px; min-width: 44px; height: 44px; min-height: 44px; }
+    .btn { white-space: normal; max-width: 100%; }
+    .editable-container { display: flex; flex-direction: column; min-width: 0; max-width: 100%; }
+    .editable-action-bar {
+        position: static;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 100%;
+        margin: 0 0 10px;
+        order: -1;
+    }
+    .editable-action-bar .btn { flex: 1 1 160px; }
+    .editable-container textarea, .tool-workspace #result {
+        width: 100%;
+        max-width: 100%;
+        padding: 12px;
+        overflow-x: auto;
+    }
+    .tool-workspace .code { display: flex; flex-direction: column; min-width: 0; max-width: 100%; }
+    .tool-workspace .copy { position: static; align-self: flex-start; margin: 0 0 12px; order: -1; }
+    .tool-workspace #result { min-height: 220px; font-size: 16px; line-height: 1.6; }
+    textarea, pre, code, #jsonOutput, #fieldMappingOutput, #formulaEditInput, #jsonMapOutput, #json, #jsonInput, #jsonSourceInput {
+        max-width: 100%;
+    }
+    pre, code { display: block; overflow-x: auto; overflow-wrap: anywhere; white-space: pre-wrap; }
+    table { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .autocomplete-suggestions {
+        left: 12px;
+        right: 12px;
+        width: auto;
+        max-width: calc(100% - 24px);
+        box-sizing: border-box;
+    }
+    .autocomplete-suggestion { flex-wrap: wrap; gap: 4px; min-width: 0; }
+    .autocomplete-suggestion strong, .autocomplete-suggestion span { min-width: 0; overflow-wrap: anywhere; }
+    .file-upload-area { min-height: 72px; }
+    .check { min-height: 44px; }
+    .check input[type="checkbox"] { width: 22px; height: 22px; min-height: 22px; flex: 0 0 auto; }
+    #toast {
+        min-width: 0;
+        width: max-content;
+        max-width: calc(100vw - 24px);
+        white-space: normal;
+        box-sizing: border-box;
+    }
+}
