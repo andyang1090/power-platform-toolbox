@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power Automate OData 筛选公式生成器</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <style>
+        :root {
+            --primary: #0078d4;
+            --primary-hover: #106ebe;
+            --bg: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-sub: #6b7280;
+            --border: #e5e7eb;
+            --radius: 8px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            padding: 40px 20px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .header {
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #111827;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header h1::before {
+            content: "";
+            display: inline-block;
+            width: 4px;
+            height: 24px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .header p {
+            color: var(--text-sub);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: box-shadow 0.2s;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-main);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-sub);
+            margin-bottom: 6px;
+        }
+
+        textarea, select, input[type="text"] {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 13px;
+            outline: none;
+            background-color: #fff;
+            color: var(--text-main);
+            transition: all 0.2s;
+        }
+
+        textarea {
+            height: 120px;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            background-color: #fafafa;
+            resize: vertical;
+        }
+
+        textarea:focus, select:focus, input[type="text"]:focus {
+            border-color: var(--primary);
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.15);
+        }
+
+        .file-upload-area {
+            border: 2px dashed var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            text-align: center;
+            background: #fafafa;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .file-upload-area:hover {
+            border-color: var(--primary);
+            background: #f0f7ff;
+        }
+
+        .file-upload-area input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-upload-text {
+            color: var(--text-sub);
+            font-size: 14px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 9px 16px;
+            border-radius: var(--radius);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background-color: #fff;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--bg);
+            border-color: #d1d5db;
+        }
+
+        .btn-danger {
+            background-color: #fff;
+            color: #ef4444;
+            border: 1px solid #fee2e2;
+        }
+
+        .btn-danger:hover {
+            background-color: #fef2f2;
+            border-color: #fca5a5;
+        }
+
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logic-switch {
+            display: flex;
+            gap: 12px;
+            background: var(--bg);
+            padding: 4px;
+            border-radius: var(--radius);
+            width: fit-content;
+            margin-bottom: 20px;
+        }
+
+        .logic-switch label {
+            margin: 0;
+            padding: 6px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            user-select: none;
+            transition: all 0.2s;
+        }
+
+        .logic-switch input[type="radio"] {
+            display: none;
+        }
+
+        .logic-switch label:has(input:checked) {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .rule-row {
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 2fr 1.2fr 40px;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 12px;
+            background: #fafafa;
+            border-radius: var(--radius);
+            border: 1px solid #f0f0f0;
+            transition: border-color 0.2s;
+        }
+
+        .rule-row:hover {
+            border-color: var(--border);
+        }
+
+        .editable-container {
+            position: relative;
+        }
+
+        .editable-container textarea {
+            height: 140px;
+            background-color: #1e293b;
+            color: #38bdf8;
+            border-color: #334155;
+            font-size: 14px;
+            padding-right: 120px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .editable-container textarea:focus {
+            background-color: #0f172a;
+            border-color: var(--primary);
+        }
+
+        .editable-action-bar {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+        }
+
+        .error-msg {
+            color: #ef4444;
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        #toast {
+            visibility: hidden;
+            min-width: 180px;
+            background-color: #10b981;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px 16px;
+            position: fixed;
+            z-index: 99;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+        }
+
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 40px;
+        }
+    </style>
+<link rel="stylesheet" href="./toolbox-common.css">
+<script src="./toolbox-examples.js"></script>
+</head>
+<body class="odata-tool">
+
+<div class="container tool-workspace">
+<a class="toolbox-back" href="./index.html">← Power Platform Toolbox</a>
+    <div class="header">
+        <h1>Power Automate OData 筛选公式生成器</h1>
+        <p>支持解析 CSV 第一行 Schema XML，自动提取字段名称映射并生成 SharePoint / Dataverse [获取项] 的 OData $filter 查询。中文内部名及 _xHHHH_ 编码名会自动加上 OData_ 前缀。</p>
+    </div>
+
+    <!-- 1. CSV 上传解析与 JSON 显示 -->
+    <div class="card workspace-1">
+        <div class="card-title">1. 上传 CSV 文件解析列映射</div>
+        <div class="input-top-toolbar csv-upload-toolbar">
+        <div class="file-upload-area">
+            <input type="file" id="csvFileInput" accept=".csv">
+            <div class="file-upload-text" id="fileNameDisplay">
+                点击或拖拽上传 CSV 文件 (如 action list.csv)
+            </div>
+        </div>
+        <div id="sourceClearSlot"></div>
+        </div>
+        <div id="csvError" class="error-msg"></div>
+
+        <div class="odata-mapping">
+            <label>字段与 OData 内部名称映射结果 (JSON):</label>
+            <textarea id="jsonOutput" readonly placeholder="上传 CSV 后将在此自动生成映射关系的 JSON 结构..."></textarea>
+        </div>
+    </div>
+
+    <!-- 2. OData 规则构建区域 -->
+    <div class="card workspace-2">
+        <div class="card-title">2. 构建 OData 筛选条件</div>
+        
+        <div class="logic-switch">
+            <label>
+                <input type="radio" name="logicGroup" value="and" checked onchange="generateODataFormula()"> 
+                AND (全部满足)
+            </label>
+            <label>
+                <input type="radio" name="logicGroup" value="or" onchange="generateODataFormula()"> 
+                OR (满足任意)
+            </label>
+        </div>
+
+        <div id="rulesContainer">
+            <!-- 条件节点列表 -->
+        </div>
+
+        <button class="btn btn-secondary" style="margin-top: 8px;" onclick="addRuleRow()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            添加筛选条件
+        </button>
+    </div>
+
+    <!-- 3. 生成的 OData 公式表达 -->
+    <div class="card workspace-3">
+        <div class="card-title">
+            3. 生成 OData Filter 表达式
+            <span style="font-size: 12px; color: var(--text-sub); font-weight: normal;">用于粘贴至 Power Automate 的 [Filter Query / 筛选查询] 字段</span>
+        </div>
+        <div class="editable-container">
+            <textarea id="formulaEditInput" placeholder="此处将自动生成构建好的 OData $filter 查询表达式..."></textarea>
+            <div class="editable-action-bar">
+                <button class="btn btn-primary" onclick="copyResult()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    复制结果
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="toast">已成功复制到剪贴板！</div>
+
+<script>
+    let fieldMapping = {};
+
+    function toODataFieldName(internalName) {
+        if (!internalName) return '';
+        if (/^OData_/i.test(internalName)) return internalName;
+        if (internalName.toLowerCase() === 'id') return 'ID';
+
+        const isPureEnglishIdent = /^[A-Za-z][A-Za-z0-9_]*$/.test(internalName);
+        const hasEncodedChar = /_x[0-9A-Fa-f]{4}_/.test(internalName);
+        if (isPureEnglishIdent && !hasEncodedChar) return internalName;
+        return 'OData_' + internalName;
+    }
+
+    document.getElementById('csvFileInput').addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        document.getElementById('fileNameDisplay').innerText = `已选择文件: ${file.name}`;
+
+        const reader = new FileReader();
+        reader.onload = function (evt) {
+            parseCSVHeader(evt.target.result);
+        };
+        reader.onerror = function () {
+            document.getElementById('csvError').innerText = "读取文件失败";
+        };
+        reader.readAsText(file, 'UTF-8');
+    });
+
+    function parseCSVHeader(csvText) {
+        const errorSpan = document.getElementById('csvError');
+        errorSpan.innerText = "";
+        fieldMapping = {};
+
+        if (!csvText || !csvText.trim()) {
+            errorSpan.innerText = "CSV 文件内容为空";
+            document.getElementById('jsonOutput').value = "";
+            return;
+        }
+
+        const lines = csvText.split(/\r\n|\n/).filter(line => line.trim() !== '');
+
+        if (csvText.includes('ListSchema=') || csvText.includes('<Field')) {
+            let validColumns = [];
+            if (lines.length >= 2) {
+                validColumns = lines[1].split(',').map(s => s.trim().replace(/^"|"$/g, '')).filter(Boolean);
+            }
+
+            const xmlMatches = csvText.match(/<Field[\s\S]*?>/gi) || [];
+            const tempXmlMap = {};
+
+            xmlMatches.forEach(fieldStr => {
+                const cleanStr = fieldStr.replace(/\\"/g, '"').replace(/\\\\"/g, '"');
+
+                const nameMatch = cleanStr.match(/\bName="([^"]+)"/i);
+                const dispMatch = cleanStr.match(/\bDisplayName="([^"]+)"/i);
+                const titleMatch = cleanStr.match(/\bTitle="([^"]+)"/i);
+                const typeMatch = cleanStr.match(/\bType="([^"]+)"/i);
+
+                if (typeMatch && typeMatch[1] === 'Computed') return;
+
+                const odataName = nameMatch ? nameMatch[1] : null;
+                const displayName = dispMatch ? dispMatch[1] : (titleMatch ? titleMatch[1] : odataName);
+
+                if (displayName && odataName && !tempXmlMap[displayName]) {
+                    tempXmlMap[displayName] = odataName;
+                }
+            });
+
+            if (validColumns.length > 0) {
+                validColumns.forEach(colName => {
+                    fieldMapping[colName] = tempXmlMap[colName] || colName;
+                });
+            } else {
+                fieldMapping = tempXmlMap;
+            }
+
+        } else {
+            if (lines.length === 0) return;
+
+            const parseLine = (text) => {
+                const result = [];
+                let cur = '';
+                let inQuotes = false;
+                for (let i = 0; i < text.length; i++) {
+                    const c = text[i];
+                    if (c === '"') { inQuotes = !inQuotes; }
+                    else if (c === ',' && !inQuotes) { result.push(cur.trim()); cur = ''; }
+                    else { cur += c; }
+                }
+                result.push(cur.trim());
+                return result;
+            };
+
+            const headers = parseLine(lines[0]);
+            let secondLine = lines.length >= 2 ? parseLine(lines[1]) : [];
+
+            headers.forEach((header, index) => {
+                const rawHeader = header.replace(/^"|"$/g, '');
+                let odataName = secondLine[index] ? secondLine[index].replace(/^"|"$/g, '') : '';
+
+                if (!odataName || odataName.includes(' ')) {
+                    odataName = rawHeader.replace(/[^a-zA-Z0-9_]/g, '');
+                }
+                if (rawHeader) {
+                    fieldMapping[rawHeader] = odataName || rawHeader;
+                }
+            });
+        }
+
+        fieldMapping = Object.fromEntries(
+            Object.entries(fieldMapping).map(([label, name]) => [label, toODataFieldName(name)])
+        );
+        document.getElementById('jsonOutput').value = JSON.stringify(fieldMapping, null, 2);
+        updateAllSelects();
+    }
+
+    // 自动识别输入值类型（数值/布尔或文本）[cite: 6]
+    function autoDetectType(rowElement) {
+        const valInput = rowElement.querySelector('.rule-val');
+        const typeSelect = rowElement.querySelector('.rule-type');
+        const fieldSelect = rowElement.querySelector('.rule-field');
+        const val = valInput.value.trim();
+        const fieldName = fieldSelect.value || '';
+
+        // 1. 如果输入纯数字或布尔值，自动判为 number 类型
+        if (val !== '' && (!isNaN(val) || val.toLowerCase() === 'true' || val.toLowerCase() === 'false')) {
+            typeSelect.value = 'number';
+        } else if (val !== '') {
+            typeSelect.value = 'string';
+        } else {
+            // 2. 值为空时，根据字段名关键字（如 ID、Count、Amount 等）预测
+            const numberKeyWords = ['id', 'num', 'count', 'amount', 'qty', 'quantity', 'price', 'age', '库存'];
+            const isNumberField = numberKeyWords.some(kw => fieldName.toLowerCase().includes(kw));
+            typeSelect.value = isNumberField ? 'number' : 'string';
+        }
+    }
+
+    // 每一行的交互触发点
+    function onRowInputChange(event) {
+        const row = event.target.closest('.rule-row');
+        if (row && (event.target.classList.contains('rule-val') || event.target.classList.contains('rule-field'))) {
+            autoDetectType(row);
+        }
+        generateODataFormula();
+    }
+
+    function addRuleRow(defaultVal = '') {
+        const container = document.getElementById('rulesContainer');
+        const availableFields = Object.values(fieldMapping);
+        const usedFields = new Set(Array.from(container.querySelectorAll('.rule-field'), select => select.value));
+        const nextField = availableFields.find(field => !usedFields.has(field)) || availableFields[0] || 'Title';
+        const rowId = 'rule_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4);
+
+        const row = document.createElement('div');
+        row.className = 'rule-row';
+        row.id = rowId;
+
+        const buildFieldSelect = () => {
+            let html = `<select class="rule-field" onchange="onRowInputChange(event)">`;
+            const keys = Object.keys(fieldMapping);
+            if (keys.length > 0) {
+                keys.forEach(key => {
+                    const odataName = toODataFieldName(fieldMapping[key]);
+                    html += `<option value="${fieldMapping[key]}" ${fieldMapping[key] === nextField ? 'selected' : ''}>${key} (${odataName})</option>`;
+                });
+            } else {
+                html += `<option value="Title">标题 (Title)</option>`;
+            }
+            html += `</select>`;
+            return html;
+        };
+
+        const opHTML = `
+            <select class="rule-op" onchange="generateODataFormula()">
+                <option value="eq">等于 (eq)</option>
+                <option value="ne">不等于 (ne)</option>
+                <option value="gt">大于 (gt)</option>
+                <option value="ge">大于等于 (ge)</option>
+                <option value="lt">小于 (lt)</option>
+                <option value="le">小于等于 (le)</option>
+                <option value="substringof">包含 (substringof - SP)</option>
+                <option value="contains">包含 (contains - OData v4)</option>
+                <option value="startswith">以...开头 (startswith)</option>
+            </select>
+        `;
+
+        const valInputHTML = `<input type="text" class="rule-val" placeholder="对比值..." value="${defaultVal}" oninput="onRowInputChange(event)">`;
+
+        const typeHTML = `
+            <select class="rule-type" onchange="generateODataFormula()">
+                <option value="string">文本 (带单引号)</option>
+                <option value="number">数字/布尔 (无引号)</option>
+            </select>
+        `;
+
+        const delBtnHTML = `
+            <button class="btn btn-danger icon-btn" onclick="removeRuleRow('${rowId}')" title="删除条件">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            </button>
+        `;
+
+        row.innerHTML = `${buildFieldSelect()} ${opHTML} ${valInputHTML} ${typeHTML} ${delBtnHTML}`;
+        container.appendChild(row);
+        
+        // 刚添加时对该行执行一次类型判定
+        autoDetectType(row);
+        generateODataFormula();
+    }
+
+    function removeRuleRow(id) {
+        const row = document.getElementById(id);
+        if (row) {
+            row.remove();
+            generateODataFormula();
+        }
+    }
+
+    function updateAllSelects() {
+        const container = document.getElementById('rulesContainer');
+        container.innerHTML = '';
+        addRuleRow();
+    }
+
+    function generateODataFormula() {
+        const rows = document.querySelectorAll('.rule-row');
+        const logicGroup = document.querySelector('input[name="logicGroup"]:checked').value;
+
+        if (rows.length === 0) {
+            document.getElementById('formulaEditInput').value = '';
+            return;
+        }
+
+        const expressions = [];
+
+        rows.forEach(row => {
+            const field = toODataFieldName(row.querySelector('.rule-field').value);
+            const op = row.querySelector('.rule-op').value;
+            const val = row.querySelector('.rule-val').value.trim();
+            const type = row.querySelector('.rule-type').value;
+
+            if (!field) return;
+
+            let formattedVal = val;
+            if (type === 'string') {
+                formattedVal = `'${val.replace(/'/g, "''")}'`;
+            }
+
+            let expr = '';
+            if (op === 'substringof') {
+                expr = `substringof(${formattedVal}, ${field})`;
+            } else if (op === 'contains' || op === 'startswith') {
+                expr = `${op}(${field}, ${formattedVal})`;
+            } else {
+                expr = `${field} ${op} ${formattedVal}`;
+            }
+
+            expressions.push(expr);
+        });
+
+        const joiner = `\n${logicGroup} `;
+        document.getElementById('formulaEditInput').value = expressions.join(joiner);
+    }
+
+    function copyResult() {
+        const text = document.getElementById('formulaEditInput').value;
+        if (!text) return;
+
+        navigator.clipboard.writeText(text).then(() => {
+            showToast();
+        });
+    }
+
+    function showToast() {
+        const toast = document.getElementById("toast");
+        toast.className = "show";
+        setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2500);
+    }
+
+    window.onload = function() {
+        // 等待用户输入或添加条件。
+    };
+</script>
+
+<script src="./toolbox-common.js"></script>
+</body>
+</html>
