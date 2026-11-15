@@ -1,0 +1,134 @@
+.toolbox-back{display:inline-flex;align-items:center;padding:8px 12px;margin-bottom:18px;border:1px solid #dbe1e8;border-radius:8px;background:#fff;color:#0078d4;font:13px/1.5 "Segoe UI","Microsoft YaHei",sans-serif;text-decoration:none;transition:background .2s,border-color .2s}
+.toolbox-back:hover{background:#eff6fc;border-color:#0078d4}
+.csv-upload-toolbar .file-upload-area{flex:1 1 240px;min-width:0;padding:9px 12px}
+.csv-upload-toolbar .file-upload-text{overflow-wrap:anywhere}
+.tool-workspace .workspace-1 .csv-upload-toolbar .file-upload-area{padding:9px 12px}
+.odata-mapping{display:flex;flex-direction:column;min-height:0}
+.odata-mapping #jsonOutput{display:block;width:100%}
+.select-field-mapping{display:flex;flex-direction:column;min-height:0;margin-top:10px}
+.select-field-mapping textarea{display:block;min-height:84px;height:120px}
+@media(min-width:1000px) and (min-height:650px){
+    .odata-tool .tool-workspace{grid-template-rows:auto auto minmax(270px,.85fr) minmax(180px,1.15fr)}
+    body.odata-tool .tool-workspace>.card.workspace-1{overflow:auto}
+    .odata-tool .workspace-1>.card-title{flex-shrink:0;margin-bottom:12px}
+    .odata-tool .odata-mapping{flex:1;min-height:100px}
+    .odata-tool .odata-mapping #jsonOutput{flex:1;height:0;min-height:74px;resize:none}
+}
+.toolbox-back:focus-visible,.toolbox-action:focus-visible{outline:2px solid #0078d4;outline-offset:3px}
+.toolbox-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.toolbox-action{padding:9px 16px;border:1px solid #dbe1e8;border-radius:8px;background:#fff;color:#243247;font:13px/1.5 "Segoe UI","Microsoft YaHei",sans-serif;cursor:pointer}
+.toolbox-action:hover{background:#f4f6f9;border-color:#aeb8c5}
+.source-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px;flex-shrink:0}
+.input-top-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;flex-shrink:0}
+.input-top-toolbar .actions,.input-top-toolbar .toolbox-actions{margin:0;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.source-toolbar .source-tabs{margin-bottom:0}
+.source-top-actions,#jsonTopActions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+#sourceClearSlot .toolbox-actions{margin:0}
+.map-combobox{display:flex;min-width:0;align-items:stretch;border:1px solid #e5e7eb;border-radius:8px;background:white;overflow:hidden}
+.map-combobox:focus-within{border-color:#0078d4;box-shadow:0 0 0 2px rgb(0 120 212 / 12%)}
+.map-combobox input.map-val{flex:1;width:0;min-width:0;border:0;border-radius:0;box-shadow:none}
+.map-combobox select.map-field-picker{flex:0 0 120px;width:120px;min-width:120px;min-height:42px;padding:0 12px;border:0;border-left:1px solid #c8dff1;border-radius:0;color:#0078d4;background:#eff7ff;font-size:13px;font-weight:600;cursor:pointer}
+.map-combobox select.map-field-picker:disabled{opacity:.4;cursor:default}
+.map-combobox option{color:#243247;background:#fff}
+
+/* Clearly distinguish hover and active editing from the white panel. */
+.tool-workspace input[type="text"],.tool-workspace input:not([type]),.tool-workspace textarea{cursor:default}
+.tool-workspace input[type="text"]:focus,.tool-workspace input:not([type]):focus,.tool-workspace textarea:focus{cursor:text}
+.tool-workspace input[type="text"],.tool-workspace input:not([type]),.tool-workspace select,.tool-workspace textarea:not([readonly]){caret-color:#005a9e;transition:background-color .15s,border-color .15s,box-shadow .15s}
+.tool-workspace input[type="text"]:hover,.tool-workspace input:not([type]):hover,.tool-workspace select:hover,.tool-workspace textarea:not([readonly]):hover{background-color:#eff7ff;border-color:#80b9e5}
+.tool-workspace input[type="text"]:focus,.tool-workspace input:not([type]):focus,.tool-workspace select:focus,.tool-workspace textarea:not([readonly]):focus{background-color:#e5f2ff;border-color:#0078d4;outline:2px solid #0078d4;outline-offset:1px;box-shadow:0 0 0 4px rgb(0 120 212 / 12%);caret-color:#004578}
+.tool-workspace .map-combobox:hover{background:#eff7ff;border-color:#80b9e5}
+.tool-workspace .map-combobox:focus-within{background:#e5f2ff;border-color:#0078d4;outline:2px solid #0078d4;outline-offset:1px}
+.tool-workspace .map-combobox input.map-val:focus{outline:none;box-shadow:none}
+/* Keep editable formula areas dark, with a contrasting caret. */
+.tool-workspace .editable-container textarea:not([readonly]):hover{background-color:#192b43;border-color:#80b9e5}
+.tool-workspace .editable-container textarea:not([readonly]):focus{background-color:#13253d;color:#7dd3fc;caret-color:#fbbf24}
+.select-tool .source-toolbar .source-tabs{margin-bottom:0}
+
+/* Shared dimensions for every tool page. Loaded after page-specific styles. */
+body{padding:40px 20px;font-family:"Segoe UI","Microsoft YaHei",Arial,sans-serif;font-size:14px;line-height:1.5}
+.container{width:100%;max-width:1100px;margin:0 auto}
+.header{margin:0 0 24px;text-align:left}
+.header h1{display:flex;align-items:center;gap:10px;margin:0;padding:0;border:0;font-size:24px;line-height:1.4;font-weight:700;color:#111827}
+.header h1::before{content:"";display:inline-block;width:4px;height:24px;flex:0 0 4px;border-radius:2px;background:#0078d4}
+.header p{margin:4px 0 0;font-size:14px;line-height:1.5;color:#6b7280}
+.card,.panel{padding:24px;margin:0 0 20px;border:1px solid #e5e7eb;border-radius:8px;box-shadow:0 4px 6px -1px rgb(0 0 0 / 5%),0 2px 4px -1px rgb(0 0 0 / 3%)}
+.card-title,.panel h2{font-size:16px;line-height:1.5;font-weight:600;margin:0 0 16px}
+label{font-size:13px;line-height:1.5}
+input[type="text"],input:not([type]),select{min-height:38px;padding:9px 12px;border-radius:8px;font-size:13px;line-height:18px}
+textarea{padding:9px 12px;border-radius:8px;font-size:13px;line-height:1.6}
+#jsonInput,#jsonSourceInput,#json{height:180px;min-height:180px}
+.btn,button.primary,.actions button,.toolbox-action{min-height:38px;padding:9px 16px;border-radius:8px;font-size:13px;line-height:18px}
+.icon-btn{width:36px;min-height:36px;height:36px;padding:0}
+.editable-container textarea,#result{height:320px;min-height:320px;font-size:14px;line-height:1.6}
+#result{padding:66px 24px 24px}
+@media(max-width:760px){body{padding:24px 12px}.card,.panel{padding:18px}.header h1{font-size:22px}.fields{grid-template-columns:1fr;gap:14px}.card-title{flex-wrap:wrap;gap:8px}}
+
+/* Desktop workspace: input and configuration on the left, results on the right. */
+body{background:#eef2f7}
+.toolbox-back{margin-bottom:12px}
+.card,.panel{background:#fff;box-shadow:0 5px 20px rgb(30 41 59 / 4%)}
+@media(min-width:1000px) and (min-height:650px){
+    body{padding:20px 24px;height:100dvh;overflow:hidden}
+    .tool-workspace{max-width:1760px;height:calc(100dvh - 40px);display:grid;grid-template-columns:minmax(0,1.85fr) minmax(340px,1fr);grid-template-rows:auto auto minmax(235px,.65fr) minmax(180px,1.35fr);gap:16px 20px;align-items:stretch}
+    .tool-workspace>.toolbox-back{grid-column:1/-1;justify-self:start;margin:0;padding:6px 12px}
+    .tool-workspace>.header{grid-column:1/-1;margin:0 0 2px}
+    .tool-workspace>.card,.tool-workspace>.panel{min-height:0;min-width:0;margin:0;padding:20px;overflow:auto;border-radius:12px}
+    .workspace-1{grid-column:1;grid-row:3}
+    .workspace-2{grid-column:1;grid-row:4}
+    .tool-workspace>.workspace-3{grid-column:2;grid-row:3/5;display:flex;flex-direction:column;overflow:hidden}
+    .workspace-3>.editable-container{flex:1;min-height:0;display:flex}
+    .workspace-3>.editable-container textarea{height:100%;min-height:0;resize:none;padding:64px 18px 18px}
+    .workspace-3 .card-title{flex-wrap:wrap;gap:6px}
+    .workspace-3 .card-title>span{font-size:12px}
+    .workspace-1 .file-upload-area{padding:18px}
+    .workspace-1 .toolbox-actions{margin-top:10px}
+    .workspace-1 .input-top-toolbar .toolbox-actions{margin:0}
+    .tool-workspace:not(.workspace-two)>.workspace-1:not(:has(.source-toolbar)){display:flex;flex-direction:column;overflow:hidden}
+    .workspace-1>#jsonInput{flex:1;height:0;min-height:60px;resize:none}
+    .workspace-1>.file-upload-area{flex-shrink:0}
+    .workspace-1>#jsonOutput{flex:1;min-height:45px;resize:none}
+    #jsonInput,#jsonSourceInput,#json{height:120px;min-height:90px}
+    .workspace-1 #jsonOutput{height:80px}
+    .rule-row{padding:10px;gap:8px}
+    #rulesContainer .rule-row{display:flex;flex-wrap:wrap}
+    #rulesContainer .rule-row>select,#rulesContainer .rule-row>input{flex:1 1 120px;min-width:0;width:auto}
+    .filter-tool #rulesContainer .rule-row{display:grid;grid-template-columns:minmax(110px,1.4fr) 36px minmax(100px,1.15fr) minmax(120px,1.5fr) minmax(100px,1.15fr) 76px 36px;gap:8px}
+    .filter-tool #rulesContainer .rule-row>*{min-width:0}
+    .filter-tool #rulesContainer .rule-row select,.filter-tool #rulesContainer .rule-row input{width:100%;min-width:0;padding-left:8px;padding-right:6px}
+    .workspace-two{grid-template-rows:auto auto minmax(0,1fr)}
+    .workspace-two>.workspace-1{grid-column:1;grid-row:3}
+    .workspace-two>.workspace-2{grid-column:2;grid-row:3;display:flex;flex-direction:column;overflow:hidden}
+    .workspace-two .code{flex:1;min-height:160px;display:flex}
+    .workspace-two #result{height:100%;min-height:0;resize:none}
+    .workspace-two .fields{gap:12px;grid-template-columns:1fr 1fr}
+    .workspace-two .fields>div:last-child{grid-column:1/-1}
+    .workspace-two .note{margin:10px 0 0;font-size:12px}
+    .workspace-two .explain{font-size:13px;padding:10px}
+    .workspace-two .actions{margin:12px 0}
+    .workspace-two .input-top-toolbar .actions{margin:0}
+    .workspace-two .workspace-1>.input-top-toolbar{position:sticky;top:-20px;z-index:2;padding:8px 0;background:#fff}
+}
+@media(min-width:1000px) and (max-width:1350px) and (min-height:650px){
+    .filter-tool #rulesContainer .rule-row{grid-template-columns:minmax(0,1fr) 36px minmax(0,1fr) 36px}
+    .filter-tool #rulesContainer .rule-row>.col-right{grid-column:1/3}
+    .filter-tool #rulesContainer .rule-row>.rule-type{grid-column:3}
+    .filter-tool #rulesContainer .rule-row>.btn-danger{grid-column:4;grid-row:1/3}
+}
+
+@media(min-width:1000px) and (min-height:650px){
+    .select-tool .tool-workspace{grid-template-rows:auto auto minmax(300px,.9fr) minmax(160px,1.1fr)}
+    .select-tool .tool-workspace>.workspace-1{display:flex;flex-direction:column;overflow:hidden;padding:16px 20px}
+    .select-tool .workspace-1>.card-title{flex:none;margin-bottom:10px}
+    .select-tool .source-tabs{align-self:flex-start;flex:none;margin-bottom:10px;padding:3px}
+    .select-tool .source-tab{padding:6px 16px}
+    .select-tool #jsonSourcePanel{display:flex;flex-direction:column;flex:1;min-height:0}
+    .select-tool #jsonSourcePanel>label{flex:none;margin-bottom:5px}
+    .select-tool #jsonSourceInput{flex:1;height:0!important;min-height:45px;resize:none}
+    .select-tool #jsonSourcePanel>div{flex:none}
+    .select-tool #jsonSourceStatus{font-size:12px!important;line-height:1.4;max-height:34px;overflow:auto}
+    .select-tool .workspace-1>.toolbox-actions{flex:none;margin-top:8px}
+    .select-tool #csvSourcePanel{flex:none;min-height:0}
+    .select-tool .select-field-mapping{flex:1;min-height:100px}
+    .select-tool .select-field-mapping textarea{flex:1;height:0;resize:none}
+}
