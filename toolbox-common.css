@@ -81,6 +81,7 @@ body{background:#eef2f7}
     .workspace-3>.editable-container textarea{height:100%;min-height:0;resize:none;padding:64px 18px 18px}
     .workspace-3 .card-title{flex-wrap:wrap;gap:6px}
     .workspace-3 .card-title>span{font-size:12px}
+    .workspace-3 .card-title>span.section-title{font-size:16px;font-weight:600}
     .workspace-1 .file-upload-area{padding:18px}
     .workspace-1 .toolbox-actions{margin-top:10px}
     .workspace-1 .input-top-toolbar .toolbox-actions{margin:0}
@@ -163,6 +164,7 @@ body{background:#eef2f7}
     .header p, .card-title, .panel h2, .note, .explain, .muted { overflow-wrap: anywhere; }
     .card-title { flex-wrap: wrap; align-items: flex-start; gap: 8px; min-width: 0; }
     .card-title > span { flex: 1 1 100%; min-width: 0; }
+    .card-title > span.section-title { flex: 0 1 auto; font-size: 16px; }
     .fields, .tool-workspace .fields, .workspace-two .fields { grid-template-columns: minmax(0, 1fr); gap: 14px; }
     .logic-switch, .source-tabs, .source-toolbar, .input-top-toolbar, .json-action-bar,
     .toolbox-actions, .actions, .source-top-actions, #jsonTopActions, .result-head, .editable-action-bar {
